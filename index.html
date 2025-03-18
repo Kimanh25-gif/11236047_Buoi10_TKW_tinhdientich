@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính Diện Tích và Chu Vi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="javascript" href="script.js">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Tính Diện Tích và Chu Vi</h1>
+
+        <!-- Phần chọn hình -->
+        <label for="shape">Chọn loại hình:</label>
+        <select id="shape" onchange="showForm()">
+            <option value="">Chọn hình</option>
+            <option value="rectangle">Hình Chữ Nhật</option>
+            <option value="circle">Hình Tròn</option>
+            <option value="triangle">Hình Tam Giác</option>
+        </select>
+
+        <!-- Hình Chữ Nhật -->
+        <div class="form-container input-group" id="rectangleForm">
+            <h2>Hình Chữ Nhật</h2>
+            <label for="length">Chiều dài (cm):</label>
+            <input type="number" id="length" placeholder="Nhập chiều dài" min="0">
+            <br>
+            <label for="width">Chiều rộng (cm):</label>
+            <input type="number" id="width" placeholder="Nhập chiều rộng" min="0">
+            <br>
+            <input type="button" value="Tính Hình Chữ Nhật" onclick="calculateRectangle()">
+            <p id="rectangleResult" class="result"></p>
+        </div>
+
+        <!-- Hình Tròn -->
+        <div class="form-container input-group" id="circleForm">
+            <h2>Hình Tròn</h2>
+            <label for="radius">Bán kính (cm):</label>
+            <input type="number" id="radius" placeholder="Nhập bán kính" min="0">
+            <br>
+            <input type="button" value="Tính Hình Tròn" onclick="calculateCircle()">
+            <p id="circleResult" class="result"></p>
+        </div>
+
+        <!-- Hình Tam Giác -->
+        <div class="form-container input-group" id="triangleForm">
+            <h2>Hình Tam Giác</h2>
+            <label for="base">Đáy (cm):</label>
+            <input type="number" id="base" placeholder="Nhập đáy" min="0">
+            <br>
+            <label for="height">Chiều cao (cm):</label>
+            <input type="number" id="height" placeholder="Nhập chiều cao" min="0">
+            <br>
+            <input type="button" value="Tính Hình Tam Giác" onclick="calculateTriangle()">
+            <p id="triangleResult" class="result"></p>
+        </div>
+    </div>
+
+    <script>
+        // Hàm kiểm tra giá trị nhập vào có hợp lệ không
+        function isValidInput(value) {
+            return !isNaN(value) && value >= 0;
+        }
+
+        // Hàm hiển thị form tương ứng với loại hình đã chọn
+        function showForm() {
+            // Ẩn tất cả các form
+            document.getElementById('rectangleForm').style.display = 'none';
+            document.getElementById('circleForm').style.display = 'none';
+            document.getElementById('triangleForm').style.display = 'none';
+
+            // Lấy giá trị hình đã chọn
+            let shape = document.getElementById('shape').value;
+
+            // Hiển thị form tương ứng với hình đã chọn
+            if (shape === 'rectangle') {
+                document.getElementById('rectangleForm').style.display = 'block';
+            } else if (shape === 'circle') {
+                document.getElementById('circleForm').style.display = 'block';
+            } else if (shape === 'triangle') {
+                document.getElementById('triangleForm').style.display = 'block';
+            }
+        }
+
+        // Hàm tính diện tích và chu vi hình chữ nhật
+        function calculateRectangle() {
+            let length = parseFloat(document.getElementById('length').value);
+            let width = parseFloat(document.getElementById('width').value);
+            let resultElement = document.getElementById('rectangleResult');
+
+            // Kiểm tra dữ liệu nhập vào
+            if (!isValidInput(length) || !isValidInput(width)) {
+                resultElement.innerHTML = "<span class='error'>Vui lòng nhập số dương hợp lệ cho chiều dài và chiều rộng!</span>";
+                return;
+            }
+
+            // Tính toán diện tích và chu vi
+            let area = length * width;
+            let perimeter = 2 * (length + width);
+            resultElement.innerHTML = `Diện tích: ${area} cm²<br>Chu vi: ${perimeter} cm`;
+        }
+
+        // Hàm tính diện tích và chu vi hình tròn
+        function calculateCircle() {
+            let radius = parseFloat(document.getElementById('radius').value);
+            let resultElement = document.getElementById('circleResult');
+
+            // Kiểm tra dữ liệu nhập vào
+            if (!isValidInput(radius)) {
+                resultElement.innerHTML = "<span class='error'>Vui lòng nhập số dương hợp lệ cho bán kính!</span>";
+                return;
+            }
+
+            // Tính toán diện tích và chu vi
+            let area = Math.PI * radius * radius;
+            let perimeter = 2 * Math.PI * radius;
+            resultElement.innerHTML = `Diện tích: ${area.toFixed(2)} cm²<br>Chu vi: ${perimeter.toFixed(2)} cm`;
+        }
+
+        // Hàm tính diện tích và chu vi hình tam giác
+        function calculateTriangle() {
+            let base = parseFloat(document.getElementById('base').value);
+            let height = parseFloat(document.getElementById('height').value);
+            let resultElement = document.getElementById('triangleResult');
+
+            // Kiểm tra dữ liệu nhập vào
+            if (!isValidInput(base) || !isValidInput(height)) {
+                resultElement.innerHTML = "<span class='error'>Vui lòng nhập số dương hợp lệ cho đáy và chiều cao!</span>";
+                return;
+            }
+
+            // Tính toán diện tích và chu vi
+            let area = 0.5 * base * height;
+            let perimeter = base + height + Math.sqrt(base * base + height * height); // Giả sử tam giác vuông
+            resultElement.innerHTML = `Diện tích: ${area} cm²<br>Chu vi: ${perimeter.toFixed(2)} cm`;
+        }
+    </script>
+
+</body>
+</html>
+
